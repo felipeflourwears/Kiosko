@@ -8,7 +8,8 @@
     <!--Material CDN-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <!--Styles-->
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="{{ url_for('static', filename='img/logo.png') }}" type="image/png">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
 
@@ -17,7 +18,7 @@
         <aside>
             <div class="top">
                 <div class="logo">
-                    <img src="img/coca.png">
+                    <img src="{{ url_for('static', filename='img/coca.png') }}">
                     <h2>Pop<span class="danger">Atelier</span></h2>
                 </div>
                 <div class="close" id="close-btn">
@@ -199,11 +200,11 @@
                 </div>
                 <div class="profile">
                     <div class="info">
-                        <p>Hey, <b>Daniel</b></p>
+                        <p>Hey, <b>Luis Felipe</b></p>
                         <small class="text-muted">Admin</small>
                     </div>
                     <div class="profile-photo">
-                        <img src="img/coca.png">
+                        <img src="{{ url_for('static', filename='img/profile.png') }}">
                     </div>
                 </div>
             </div>
@@ -213,7 +214,7 @@
                 <div class="updates">
                     <div class="update">
                         <div class="profile-photo">
-                            <img src="img/profile.png">
+                            <img src="{{ url_for('static', filename='img/profile.png') }}">
                         </div>
                         <div class="message">
                             <p><b>Myke Tyson</b> received his order of Night lion tech GPS drone</p>
@@ -222,7 +223,7 @@
                     </div>
                     <div class="update">
                         <div class="profile-photo">
-                            <img src="img/profile.png">
+                            <img src="{{ url_for('static', filename='img/profile.png') }}">
                         </div>
                         <div class="message">
                             <p><b>Myke Tyson</b> received his order of Night lion tech GPS drone</p>
@@ -231,7 +232,7 @@
                     </div>
                     <div class="update">
                         <div class="profile-photo">
-                            <img src="img/profile.png">
+                            <img src="{{ url_for('static', filename='img/profile.png') }}">
                         </div>
                         <div class="message">
                             <p><b>Myke Tyson</b> received his order of Night lion tech GPS drone</p>
@@ -295,6 +296,6 @@
             </div>
          </div>
     </div>
-    <script src="js/index.js"></script>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
 </body>
 </html>
