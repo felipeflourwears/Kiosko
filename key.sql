@@ -35,6 +35,14 @@ CREATE TABLE IF NOT EXISTS orders (
     FOREIGN KEY (idClient) REFERENCES client(idClient)
 );
 
+CREATE TABLE IF NOT EXISTS user (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(20),
+    password CHAR(102),
+    fullname VARCHAR(50)
+);
+
+
 
 -- Insertar datos ficticios en la tabla "categoryFood"
 INSERT INTO categoryFood (nameCategory)

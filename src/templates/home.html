@@ -63,7 +63,7 @@
                     <span class="material-icons-sharp">add</span>
                     <h3>Add Product</h3>
                 </a>
-                <a href="#">
+                <a href="{{ url_for('logout') }}">
                     <span class="material-icons-sharp">logout</span>
                     <h3>Logout</h3>
                 </a>
@@ -201,7 +201,7 @@
                 </div>
                 <div class="profile">
                     <div class="info">
-                        <p>Hey, <b>Luis Felipe</b></p>
+                        <p>Hey, <b>{{current_user.fullname}}</b></p>
                         <small class="text-muted">Admin</small>
                     </div>
                     <div class="profile-photo">

@@ -1,24 +1,10 @@
-from database.class_connection import MySQLDatabase
+from werkzeug.security import generate_password_hash, check_password_hash
 
-if __name__ == "__main__":
-    db = MySQLDatabase()
-    
-    db.connect()
+password = 'luis'
 
-    # Consulta SELECT de prueba en la tabla "foodMenu"
-    select_query = "SELECT * FROM foodMenu"
+# Generar un hash seguro de la contraseña
+hashed_password = generate_password_hash(password)
+print(hashed_password)
 
-    result = db.execute_query(select_query)
-
-    # Recorre los resultados y muestra los datos
-    for row in result:
-        print("ID:", row[0])
-        print("Nombre de la comida:", row[1])
-        print("Precio:", row[2])
-        print("URL de la imagen:", row[3])
-        print("Descripción:", row[4])
-        print("Disponible:", "Sí" if row[5] == 1 else "No")
-        print("ID de la categoría:", row[6])
-        print()
-
-    db.close()
+# Verificar la contraseña
+print(check_password_hash(hashed_password, password))  # Esto debería imprimir True
