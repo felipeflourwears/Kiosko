@@ -140,50 +140,18 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>idClient</th>
-                            <th>idFood</th>
+                            <th>Table</th> <!--Connect table client to get attribute numberTable-->
+                            <th>NameFood</th> <!--Connect table foodMenu to get attribute nameFood -->
                             <th>Quantity</th>
                             <th>Description</th>
-                            <th>dateDay</th>
+                            <th>Date</th>
+                            <th>Total</th>
+                            <th>Served</th>
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>Foldable Mini Drone</td>
-                            <td>85631</td>
-                            <td>Due</td>
-                            <td class="warning">Pending</td>
-                            <td class="primary">Details</td>
-                        </tr>
-                        <tr>
-                            <td>Foldable Mini Drone</td>
-                            <td>85631</td>
-                            <td>Due</td>
-                            <td class="warning">Pending</td>
-                            <td class="primary">Details</td>
-                        </tr>
-                        <tr>
-                            <td>Foldable Mini Drone</td>
-                            <td>85631</td>
-                            <td>Due</td>
-                            <td class="warning">Pending</td>
-                            <td class="primary">Details</td>
-                        </tr>
-                        <tr>
-                            <td>Foldable Mini Drone</td>
-                            <td>85631</td>
-                            <td>Due</td>
-                            <td class="warning">Pending</td>
-                            <td class="primary">Details</td>
-                        </tr>
-                        <tr>
-                            <td>Foldable Mini Drone</td>
-                            <td>85631</td>
-                            <td>Due</td>
-                            <td class="warning">Pending</td>
-                            <td class="primary">Details</td>
-                        </tr>
+                    <tbody id="order-table-body">
+                       
                     </tbody>
                 </table>
                 <a href="#">Show All</a>
@@ -298,5 +266,40 @@
          </div>
     </div>
     <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    <script>
+        // Función para cargar y mostrar los datos de pedidos
+        function loadOrderData() {
+            // Hacer una solicitud para obtener los datos de pedidos
+            fetch('/get_orders')
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('order-table-body');
+                    // Limpiar la tabla antes de cargar nuevos datos
+                    tableBody.innerHTML = '';
+    
+                    // Iterar a través de los datos y crear las filas de la tabla
+                    data.forEach(order => {
+                        const row = tableBody.insertRow();
+                        row.insertCell(0).textContent = order.table;
+                        row.insertCell(1).textContent = order.nameFood;
+                        row.insertCell(2).textContent = order.quantity;
+                        row.insertCell(3).textContent = order.description;
+                        row.insertCell(4).textContent = new Date(order.date).toLocaleDateString();
+                        row.insertCell(5).textContent = `$${order.total}`;
+                        row.insertCell(6).textContent = order.served ? 'Served' : 'Pending';
+                    });
+                })
+                .catch(error => {
+                    console.error('Error al obtener los datos de pedidos:', error);
+                });
+        }
+    
+        // Llama a loadOrderData una vez al cargar la página
+        loadOrderData();
+    
+        // Actualizar los datos de pedidos cada 10 segundos (puedes ajustar el intervalo según tus necesidades)
+        setInterval(loadOrderData, 5000);
+    </script>   
+        
 </body>
 </html>

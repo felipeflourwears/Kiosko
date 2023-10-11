@@ -80,3 +80,34 @@ VALUES
 ('Salmón a la Parrilla', 16.99, 'salmon.jpg', 'Filete de salmón a la parrilla con espárragos', 1, 13);
 
 
+-- Insertar 10 registros de clientes en la tabla "client"
+INSERT INTO client (nameClient, numberTable)
+VALUES
+('Cliente 1', 'Table 1'),
+('Cliente 2', 'Table 2'),
+('Cliente 3', 'Table 3'),
+('Cliente 4', 'Table 4'),
+('Cliente 5', 'Table 5'),
+('Cliente 6', 'Table 6'),
+('Cliente 7', 'Table 7'),
+('Cliente 8', 'Table 8'),
+('Cliente 9', 'Table 9'),
+('Cliente 10', 'Table 10');
+
+-- Insertar datos de pedidos coherentes en la tabla "orders"
+INSERT INTO orders (idClient, idFood, quantity, descriptionOrd, dateDay, total, served)
+VALUES
+(1, 6, 2, 'Pedido de Paella de Marisco', '2023-10-10', 39.98, 1),
+(2, 7, 1, 'Tiramisú de postre', '2023-10-10', 6.49, 1),
+(3, 8, 2, 'Refresco de Limón', '2023-10-10', 5.98, 0),
+(1, 9, 1, 'Helado de Vainilla', '2023-10-11', 4.99, 1),
+(4, 10, 2, 'Desayuno Continental', '2023-10-11', 17.98, 1),
+(1, 11, 1, 'Café Espresso', '2023-10-12', 2.49, 0),
+(2, 12, 3, 'Sopa de Tomate', '2023-10-12', 17.97, 1),
+(3, 13, 1, 'Filete a la Parrilla', '2023-10-13', 14.99, 1),
+(4, 14, 2, 'Aros de Cebolla', '2023-10-13', 8.98, 0),
+(1, 15, 1, 'Plato del Chef', '2023-10-14', 22.99, 1),
+(2, 16, 1, 'Vino Tinto', '2023-10-14', 15.99, 1),
+(3, 17, 2, 'Ensalada César', '2023-10-15', 14.98, 0),
+(4, 18, 1, 'Salmón a la Parrilla', '2023-10-15', 16.99, 1);
+

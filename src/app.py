@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from config import config
 from flask_mysqldb import MySQL
 
@@ -62,6 +62,16 @@ def home():
 @login_required
 def protected():
     return "<h1>Esta es una vista protegida solo para usuarios autenticados</h1>"
+
+@app.route('/get_orders')
+def get_orders():
+    try:
+        orders = ModelUser.get_orders_db(db)  # Llama a la función para obtener datos de pedidos
+        # Convierte los datos de pedidos en un formato adecuado (por ejemplo, una lista de diccionarios)
+        data = [{'table': order.nameTable, 'nameFood': order.nameFood, 'quantity': order.quantity, 'description': order.descriptionOrd, 'date': order.dateDay, 'total': order.total, 'served': order.served} for order in orders]
+        return jsonify(data)
+    except Exception as ex:
+        return jsonify({'error': str(ex)})
 
 def status_401(error):
     return redirect(url_for('login'))
