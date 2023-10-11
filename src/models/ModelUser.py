@@ -37,10 +37,10 @@ class ModelUser():
     def get_orders_db(self, db):
         try:
             cursor = db.connection.cursor()
-            sql = "SELECT c.numberTable, f.nameFood, o.quantity, o.descriptionOrd, o.dateDay, o.total, o.served FROM orders o INNER JOIN foodmenu f ON o.idFood = f.idFood INNER JOIN client c ON c.idClient = o.idClient ORDER BY o.idOrder DESC"
+            sql = "SELECT c.numberTable, f.nameFood, o.quantity, o.descriptionOrd, o.dateDay, o.total, o.served FROM orders o INNER JOIN foodmenu f ON o.idFood = f.idFood INNER JOIN client c ON c.userCode = o.userCode ORDER BY o.idOrder DESC;"
             cursor.execute(sql)
             rows = cursor.fetchall()
-            orders = []
+            orders = [] 
 
             for row in rows:
                 # Crea objetos de pedido (Order) con los datos obtenidos

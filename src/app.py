@@ -56,7 +56,8 @@ def logout():
 @app.route('/home')
 @login_required
 def home():
-    return render_template('home.html')
+    page = 5
+    return render_template('home.html', page=page)
 
 @app.route('/protected')
 @login_required
@@ -72,6 +73,11 @@ def get_orders():
         return jsonify(data)
     except Exception as ex:
         return jsonify({'error': str(ex)})
+    
+""" @app.route('/products')
+@login_required
+def products():
+    return render_template('products.html') """
 
 def status_401(error):
     return redirect(url_for('login'))
