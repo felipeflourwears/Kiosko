@@ -5,8 +5,8 @@ class DevelopmentConfig(Config):
     DEBUG = True
     MYSQL_HOST = 'localhost'
     MYSQL_USER = 'root'
-    MYSQL_PASSWORD = ''
-    MYSQL_DB = 'kioskopop'
+    MYSQL_PASSWORD = 'root'
+    MYSQL_DB = 'kiosk'
 
 config = {
     'development': DevelopmentConfig
