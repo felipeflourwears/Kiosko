@@ -33,9 +33,10 @@ def login():
     if request.method == 'POST':
         print(request.form['username'])
         print(request.form['password'])
-        user = User(0, request.form['username'], request.form['password'])
+        user = User(0, request.form['username'], request.form['password'], 0)
         logged_user = ModelUser.login(db, user)
         if logged_user != None:
+            print("IDROL: ",logged_user.idRol)
             if logged_user.password:
                 login_user(logged_user)
                 return redirect(url_for('home'))

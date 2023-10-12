@@ -1,3 +1,6 @@
+CREATE DATABASE kiosk;
+USE DATABASE kiosk;
+
 CREATE TABLE roles (
     idRol SERIAL PRIMARY KEY,
     rol VARCHAR(20) NOT NULL
@@ -142,3 +145,12 @@ VALUES
     ('Client8', 'Table8', 'UserCode8'),
     ('Client9', 'Table9', 'UserCode9'),
     ('Client10', 'Table10', 'UserCode10');
+
+--
+-- Insertar Pedidos
+--
+
+INSERT INTO orders (idFood, quantity, descriptionOrd, dateDay, total, served, userCode) VALUES
+(2, 2, 'Pedido 4', '2023-10-14', 35.98, 1, 'UserCode4'),
+(3, 1, 'Pedido 5', '2023-10-15', 12.99, 1, 'UserCode5'),
+(9, 2, 'Pedido 6', '2023-10-16', 27.98, 0, 'UserCode6');
