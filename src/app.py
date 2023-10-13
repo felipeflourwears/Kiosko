@@ -34,24 +34,26 @@ def index():
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
+
+    current_user_mode = 0  # Establecer el modo predeterminado en 0 si no se encuentra ningún usuario
+
     if request.method == 'POST':
         print(request.form['username'])
         print(request.form['password'])
-        user = User(0, request.form['username'], request.form['password'], 0)
+        user = User(0, request.form['username'], request.form['password'], 0, 0)
         logged_user = ModelUser.login(db, user)
-        if logged_user != None:
-            print("IDROL: ",logged_user.idRol)
+        if logged_user:
+            current_user_mode = logged_user.mode  # Actualizar el valor de current_user_mode si se encuentra un usuario
+            print("MODE: ", current_user_mode)
+            print("IDROL: ", logged_user.idRol)
             if logged_user.password:
                 login_user(logged_user)
                 return redirect(url_for('home'))
             else:
                 flash("Invalid Password...")
-                return render_template('auth/login.html')
         else:
             flash("User not found...")
-            return render_template('auth/login.html')
-    else:
-        return render_template('auth/login.html')
+    return render_template('auth/login.html', current_user_mode=current_user_mode)
 
 @app.route('/logout')
 def logout():
@@ -61,8 +63,7 @@ def logout():
 @app.route('/home')
 @login_required
 def home():
-    page = 5
-    return render_template('home.html', page=page)
+    return render_template('home.html', current_page="home")
 
 @app.route('/protected')
 @login_required
@@ -79,10 +80,10 @@ def get_orders():
     except Exception as ex:
         return jsonify({'error': str(ex)})
     
-""" @app.route('/products')
+@app.route('/products')
 @login_required
 def products():
-    return render_template('products.html') """
+    return render_template('products.html', current_page='products')
 
 def status_401(error):
     return redirect(url_for('login'))
