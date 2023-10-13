@@ -1,5 +1,5 @@
  // Variables para el manejo de la paginación
- const itemsPerPage = 5; // Cambia esto al número deseado de elementos por página
+ const itemsPerPage = 10; // Cambia esto al número deseado de elementos por página
  const paginationList = document.getElementById('pagination-list');
  const tableBody = document.getElementById('order-table-body');
  const ordersData = []; // Aquí se almacenarán todos los datos de pedidos
@@ -14,17 +14,29 @@
      // Limpiar la tabla antes de cargar nuevos datos
      tableBody.innerHTML = '';
 
-     // Iterar a través de los datos y crear las filas de la tabla
      ordersToDisplay.forEach(order => {
-         const row = tableBody.insertRow();
-         row.insertCell(0).textContent = order.table;
-         row.insertCell(1).textContent = order.nameFood;
-         row.insertCell(2).textContent = order.quantity;
-         row.insertCell(3).textContent = order.description;
-         row.insertCell(4).textContent = new Date(order.date).toLocaleDateString();
-         row.insertCell(5).textContent = `$${order.total}`;
-         row.insertCell(6).textContent = order.served ? 'Served' : 'Pending';
-     });
+        const row = tableBody.insertRow();
+        row.insertCell(0).textContent = order.table;
+        row.insertCell(1).textContent = order.nameFood;
+        row.insertCell(2).textContent = order.quantity;
+        row.insertCell(3).textContent = order.description;
+        /* row.insertCell(4).textContent = new Date(order.date).toLocaleDateString(); */
+        row.insertCell(4).textContent = order.date;
+        row.insertCell(5).textContent = `$${order.total}`;
+        const servedCell = row.insertCell(6);
+    
+        if (order.served === 1) {
+            // Si el pedido está "served" (valor 1), muestra un botón
+            const atenderButton = document.createElement('button');
+            atenderButton.classList.add('atender-btn');
+            atenderButton.textContent = 'Atender';
+            servedCell.appendChild(atenderButton);
+        } else {
+            // Si el pedido no está "served" (valor 0), muestra el texto 'Attended' en verde
+            servedCell.textContent = 'Attended';
+            servedCell.classList.add('attended-text'); // Agrega una clase CSS para cambiar el color del texto a verde
+        }
+    });
  }
 
  // Llama a loadOrderData con la página inicial (por ejemplo, 1)

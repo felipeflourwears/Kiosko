@@ -1,0 +1,19 @@
+.served-cell {
+    display: none;
+}
+.attended-text {
+    color: var(--color-success);
+}
+/* Estilo base del botón */
+.atender-btn {
+    background-color: var(--color-danger); /* Fondo rojo */
+    color: white; /* Texto en blanco */
+    padding: 5px 10px; /* Espaciado interior */
+    border: none; /* Sin borde */
+    cursor: pointer; /* Cambia el cursor al pasar el mouse */
+}
+
+/* Estilo al pasar el mouse (hover) */
+.atender-btn:hover {
+    background-color: darkred; /* Cambio de color de fondo al pasar el mouse */
+}

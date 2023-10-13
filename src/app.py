@@ -10,9 +10,11 @@ from flask_login import LoginManager, login_user, logout_user, login_required
 
 #Models
 from models.ModelUser import ModelUser
+from models.ModelOrders import ModelOrders
 
 #Entities
 from models.entities.User import User
+from models.entities.Order import Order
 
 #Instances
 csrf = CSRFProtect()
@@ -68,7 +70,7 @@ def protected():
 @app.route('/get_orders')
 def get_orders():
     try:
-        orders = ModelUser.get_orders_db(db)  # Llama a la función para obtener datos de pedidos
+        orders = ModelOrders.get_orders_db(db)  # Llama a la función para obtener datos de pedidos
         # Convierte los datos de pedidos en un formato adecuado (por ejemplo, una lista de diccionarios)
         data = [{'table': order.nameTable, 'nameFood': order.nameFood, 'quantity': order.quantity, 'description': order.descriptionOrd, 'date': order.dateDay, 'total': order.total, 'served': order.served} for order in orders]
         return jsonify(data)

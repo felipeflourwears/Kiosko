@@ -11,6 +11,7 @@
     <link rel="icon" href="{{ url_for('static', filename='img/logo.png') }}" type="image/png">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/pagination.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 </head>
 <body>
 
@@ -149,7 +150,7 @@
             </div>
              <!--==================== END INSIGHTS ====================-->
              <!--=== BEGIN ORDERS ====-->
-             <div class="recent-orders">
+            <div class="recent-orders">
                 <h2>Recent Orders</h2>
                 <table>
                     <thead>
@@ -161,10 +162,10 @@
                             <th>Date</th>
                             <th>Total</th>
                             <th>Served</th>
-                            <th></th>
+                            <th></th>        
                         </tr>
                     </thead>
-                    <tbody id="order-table-body">
+                    <tbody id="order-table-body">                  
                     </tbody>
                 </table>
                 <div class="pagination">
@@ -175,6 +176,8 @@
                     </ul>
                 </div>
             </div>
+
+            
             
         </main>
          <!--==================== END MAIN ====================-->

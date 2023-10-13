@@ -1,5 +1,4 @@
 from .entities.User import User
-from .entities.Order import Order
 
 class ModelUser():
 
@@ -30,23 +29,5 @@ class ModelUser():
                 return User(row[0], row[1], None, row[2], row[3])
             else:
                 return None
-        except Exception as ex:
-            raise Exception(ex)
-        
-    @classmethod
-    def get_orders_db(self, db):
-        try:
-            cursor = db.connection.cursor()
-            sql = "SELECT c.numberTable, f.nameFood, o.quantity, o.descriptionOrd, o.dateDay, o.total, o.served FROM orders o INNER JOIN foodmenu f ON o.idFood = f.idFood INNER JOIN client c ON c.userCode = o.userCode ORDER BY o.idOrder DESC;"
-            cursor.execute(sql)
-            rows = cursor.fetchall()
-            orders = [] 
-
-            for row in rows:
-                # Crea objetos de pedido (Order) con los datos obtenidos
-                order = Order(row[0], row[1], row[2], row[3], row[4], row[5], row[6])
-                orders.append(order)
-
-            return orders
         except Exception as ex:
             raise Exception(ex)
