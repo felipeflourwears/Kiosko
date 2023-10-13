@@ -17,3 +17,18 @@
 .atender-btn:hover {
     background-color: darkred; /* Cambio de color de fondo al pasar el mouse */
 }
+
+.logout{
+    text-align: center;
+}
+
+.logout a {
+    text-decoration: none;
+    color: var(--color-info-dark);
+}
+
+.logout a:hover {
+    color: var(--color-primary); /* Cambia el color al pasar el mouse sobre el enlace */
+    /* Agrega cualquier otra propiedad que desees para el efecto hover */
+}
+

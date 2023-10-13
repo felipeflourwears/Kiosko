@@ -1,5 +1,5 @@
  // Variables para el manejo de la paginación
- const itemsPerPage = 10; // Cambia esto al número deseado de elementos por página
+ const itemsPerPage = 9; // Cambia esto al número deseado de elementos por página
  const paginationList = document.getElementById('pagination-list');
  const tableBody = document.getElementById('order-table-body');
  const ordersData = []; // Aquí se almacenarán todos los datos de pedidos

@@ -6,7 +6,7 @@ from flask_mysqldb import MySQL
 from flask_wtf.csrf import CSRFProtect
 
 #Import to manage control with LOGIN
-from flask_login import LoginManager, login_user, logout_user, login_required
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 
 #Models
 from models.ModelUser import ModelUser
@@ -32,6 +32,8 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
     if request.method == 'POST':
         print(request.form['username'])
         print(request.form['password'])
