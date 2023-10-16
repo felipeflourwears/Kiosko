@@ -1,6 +1,9 @@
 .served-cell {
     display: none;
 }
+.pending-text {
+    color: var(--color-warning);
+}
 .attended-text {
     color: var(--color-success);
 }

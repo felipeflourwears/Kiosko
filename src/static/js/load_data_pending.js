@@ -1,3 +1,5 @@
+ //HOME
+ 
  // Variables para el manejo de la paginación
  const itemsPerPage = 9; // Cambia esto al número deseado de elementos por página
  const paginationList = document.getElementById('pagination-list');

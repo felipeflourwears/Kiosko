@@ -70,10 +70,20 @@ def home():
 def protected():
     return "<h1>Esta es una vista protegida solo para usuarios autenticados</h1>"
 
-@app.route('/get_orders')
-def get_orders():
+@app.route('/get_orders_pending')
+def get_orders_pending():
     try:
-        orders = ModelOrders.get_orders_db(db)  # Llama a la función para obtener datos de pedidos
+        orders = ModelOrders.get_orders_pending_db(db)  # Llama a la función para obtener datos de pedidos
+        # Convierte los datos de pedidos en un formato adecuado (por ejemplo, una lista de diccionarios)
+        data = [{'table': order.nameTable, 'nameFood': order.nameFood, 'quantity': order.quantity, 'description': order.descriptionOrd, 'date': order.dateDay, 'total': order.total, 'served': order.served} for order in orders]
+        return jsonify(data)
+    except Exception as ex:
+        return jsonify({'error': str(ex)})
+
+@app.route('/get_orders_all')
+def get_orders_all():
+    try:
+        orders = ModelOrders.get_orders_all_db(db)  # Llama a la función para obtener datos de pedidos
         # Convierte los datos de pedidos en un formato adecuado (por ejemplo, una lista de diccionarios)
         data = [{'table': order.nameTable, 'nameFood': order.nameFood, 'quantity': order.quantity, 'description': order.descriptionOrd, 'date': order.dateDay, 'total': order.total, 'served': order.served} for order in orders]
         return jsonify(data)
@@ -84,6 +94,11 @@ def get_orders():
 @login_required
 def products():
     return render_template('products.html', current_page='products')
+
+@app.route('/orders')
+@login_required
+def orders():
+    return render_template('orders.html', current_page='orders')
 
 def status_401(error):
     return redirect(url_for('login'))

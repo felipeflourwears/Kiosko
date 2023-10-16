@@ -1,3 +1,5 @@
+ //HOME
+ 
  // Variables para el manejo de la paginación
  const itemsPerPage = 9; // Cambia esto al número deseado de elementos por página
  const paginationList = document.getElementById('pagination-list');
@@ -26,11 +28,8 @@
         const servedCell = row.insertCell(6);
     
         if (order.served === 1) {
-            // Si el pedido está "served" (valor 1), muestra un botón
-            const atenderButton = document.createElement('button');
-            atenderButton.classList.add('atender-btn');
-            atenderButton.textContent = 'Atender';
-            servedCell.appendChild(atenderButton);
+            servedCell.textContent = 'Pending';
+            servedCell.classList.add('pending-text'); // Agrega una clase CSS para cambiar el color del texto a verde
         } else {
             // Si el pedido no está "served" (valor 0), muestra el texto 'Attended' en verde
             servedCell.textContent = 'Attended';
