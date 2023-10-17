@@ -17,6 +17,9 @@ from models.ModelProducts import ModelProducts
 from models.entities.User import User
 from models.entities.Order import Order
 
+
+import math 
+
 #Instances
 csrf = CSRFProtect()
 app = Flask(__name__)
@@ -75,9 +78,10 @@ def protected():
     return "<h1>Esta es una vista protegida solo para usuarios autenticados</h1>"
 
 @app.route('/products', methods=['GET'])
+@login_required
 def products():
-    # Suponiendo que tienes acceso a la variable db
-    result, page, total_page, start_range, end_range = model_products.get_products(db, request)
+    search = request.args.get('search')
+    result, page, total_page, start_range, end_range = ModelProducts().get_products(db, request, search)
     return render_template('products.html', result=result, page=page, total_page=total_page, start_range=start_range, end_range=end_range)
 
 @app.route('/get_orders_all')

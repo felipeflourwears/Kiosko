@@ -40,7 +40,7 @@ function loadOrderData(pageNumber, data) {
 
 // Función para cargar y actualizar los datos de los pedidos con paginación
 function updateOrderData(page) {
-    fetch(`/get_orders_pending?page=${page}`)
+    fetch(`/get_orders_pending`)
         .then(response => response.json())
         .then(data => {
             loadOrderData(page, data);

@@ -28,6 +28,10 @@
              <!--=== BEGIN ORDERS ====-->
              <div class="recent-orders">
                 <h2>Product Catalog</h2>
+                <div class="search">
+                    <input type="text" class="search-product" id="search-input" placeholder="Search product" name="search">
+                    <span class="material-icons-sharp" id="search-icon">search</span>
+                </div>
                 <div style="overflow-x: auto;">
                     <table>
                         <tr>
@@ -73,21 +77,22 @@
             </div>
             <div class="pagination">
                 {% if page > 1 %}
-                    <a href='/products?page={{ page - 1 }}' class='btn btn-danger'>Previous</a>
+                    <a href='/products?page={{ page - 1 }}&search={{ request.args.get("search") }}' class='btn btn-danger'>Previous</a>
                 {% endif %}
-            
+                
                 {% for i in range(start_range, end_range + 1) %}
                     {% if i == page %}
-                        <a href='/products?page={{ i }}' class='btn btn-primary active'>{{ i }}</a>
+                        <a href='/products?page={{ i }}&search={{ request.args.get("search") }}' class='btn btn-primary active'>{{ i }}</a>
                     {% else %}
-                        <a href='/products?page={{ i }}' class='btn btn-primary'>{{ i }}</a>
+                        <a href='/products?page={{ i }}&search={{ request.args.get("search") }}' class='btn btn-primary'>{{ i }}</a>
                     {% endif %}
                 {% endfor %}
-            
+                
                 {% if page < total_page %}
-                    <a href='/products?page={{ page + 1 }}' class='btn btn-danger'>Next</a>
+                    <a href='/products?page={{ page + 1 }}&search={{ request.args.get("search") }}' class='btn btn-danger'>Next</a>
                 {% endif %}
             </div>
+            
             
         </main>
          <!--==================== END MAIN ====================-->
@@ -135,7 +140,7 @@
         </div>   
     </div>
     <script src="{{ url_for('static', filename='js/index.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/products.js') }}"></script>
 
 </body>
 </html>
