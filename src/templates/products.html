@@ -11,7 +11,7 @@
     <link rel="icon" href="{{ url_for('static', filename='img/logo.png') }}" type="image/png">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/pagination.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/gadgets.css') }}">
 </head>
 <body>
 
@@ -26,32 +26,69 @@
 
              <!--==================== END INSIGHTS ====================-->
              <!--=== BEGIN ORDERS ====-->
-            <div class="recent-orders">
-                <h2>Recent Orders</h2>
-                <table>
-                    <thead>
+             <div class="recent-orders">
+                <h2>Product Catalog</h2>
+                <div style="overflow-x: auto;">
+                    <table>
                         <tr>
-                            <th>Table</th>
-                            <th>NameFood</th>
-                            <th>Quantity</th>
-                            <th>Description</th>
-                            <th>Date</th>
-                            <th>Total</th>
-                            <th>Served</th>
-                            <th></th>        
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Image</th>
+                            <!-- <th>Description</th> -->
+                            <th>Stack</th>
+                            <th>Category</th>
+                            <th>Options</th>
                         </tr>
-                    </thead>
-                    <tbody id="order-table-body">                  
-                    </tbody>
-                </table>
-                <div class="pagination">
-                    <ul id="pagination-list">
-                        <li class="page-item" id="page-previous">
-                            <a href="#" class="page-link">Previous</a>
-                        </li>
-                    </ul>
+                        {% for data in result %}
+                        <tr>
+                            <td>{{ data[1][:15] + '...' if data[1] and data[1]|length > 15 else data[1] }}</td>
+                            <td>{{ data[2] }}</td>
+                            <td style="justify-content: center; align-items: center; height: 100px; width: 100px;">
+                                <img src="{{ data[3] }}" style="">
+                            </td>
+                            
+                        <!--  <td>{{ data[3] }}</td> -->
+                            <td>
+                                {% if data[5] == 1 %}
+                                    Available
+                                {% else %}
+                                    Not Available
+                                {% endif %}
+                            </td>
+                            <td>{{ data[6] }}</td>
+                            <td>
+                                <a class="btn-edit" href="/edit/{{ data[0] }}" style="color: white;">Edit</a>
+                                <a class="btn-delete" href="/delete/{{ data[0] }}" style="color: white;">Delete</a>
+                            </td>
+                            
+                            
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    <!-- <h1>Debugging information:</h1>
+                    <h1>Result: {{ result }}</h1>
+                    <h1>Page: {{ page }}</h1>
+                    <h1>Total Page: {{ total_page }}</h1> -->
                 </div>
             </div>
+            <div class="pagination">
+                {% if page > 1 %}
+                    <a href='/products?page={{ page - 1 }}' class='btn btn-danger'>Previous</a>
+                {% endif %}
+            
+                {% for i in range(start_range, end_range + 1) %}
+                    {% if i == page %}
+                        <a href='/products?page={{ i }}' class='btn btn-primary active'>{{ i }}</a>
+                    {% else %}
+                        <a href='/products?page={{ i }}' class='btn btn-primary'>{{ i }}</a>
+                    {% endif %}
+                {% endfor %}
+            
+                {% if page < total_page %}
+                    <a href='/products?page={{ page + 1 }}' class='btn btn-danger'>Next</a>
+                {% endif %}
+            </div>
+            
         </main>
          <!--==================== END MAIN ====================-->
         <div class="right">

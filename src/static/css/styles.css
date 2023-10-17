@@ -441,6 +441,20 @@ main .recent-orders a{
     text-align: right;
 }
 
+.logout{
+    text-align: center;
+}
+
+.logout a {
+    text-decoration: none;
+    color: var(--color-info-dark);
+}
+
+.logout a:hover {
+    color: var(--color-primary); /* Cambia el color al pasar el mouse sobre el enlace */
+    /* Agrega cualquier otra propiedad que desees para el efecto hover */
+}
+
 /* ==================== RECENT UPDATES ====================*/
 .right .recent-updates{
     margin-top: 1rem;
@@ -547,6 +561,8 @@ main .recent-orders a{
 
 /* ==================== MEDIA QUERIES ====================*/
 @media screen and (max-width: 1200px) {
+
+    
     .container{
         width: 94%;
         grid-template-columns: 7rem auto 23rem;
@@ -588,6 +604,9 @@ main .recent-orders a{
     main table thead tr td:last-child, 
     main table thead tr td:first-child{
         display: none;
+    }
+    .pagination{
+        /*Responsive working*/
     }
 
 }

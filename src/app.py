@@ -11,6 +11,7 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 #Models
 from models.ModelUser import ModelUser
 from models.ModelOrders import ModelOrders
+from models.ModelProducts import ModelProducts 
 
 #Entities
 from models.entities.User import User
@@ -21,6 +22,9 @@ csrf = CSRFProtect()
 app = Flask(__name__)
 db = MySQL(app)
 login_manager_app = LoginManager(app)
+model_products = ModelProducts()  
+
+
 
 @login_manager_app.user_loader
 def load_user(id):
@@ -70,15 +74,11 @@ def home():
 def protected():
     return "<h1>Esta es una vista protegida solo para usuarios autenticados</h1>"
 
-@app.route('/get_orders_pending')
-def get_orders_pending():
-    try:
-        orders = ModelOrders.get_orders_pending_db(db)  # Llama a la función para obtener datos de pedidos
-        # Convierte los datos de pedidos en un formato adecuado (por ejemplo, una lista de diccionarios)
-        data = [{'table': order.nameTable, 'nameFood': order.nameFood, 'quantity': order.quantity, 'description': order.descriptionOrd, 'date': order.dateDay, 'total': order.total, 'served': order.served} for order in orders]
-        return jsonify(data)
-    except Exception as ex:
-        return jsonify({'error': str(ex)})
+@app.route('/products', methods=['GET'])
+def products():
+    # Suponiendo que tienes acceso a la variable db
+    result, page, total_page, start_range, end_range = model_products.get_products(db, request)
+    return render_template('products.html', result=result, page=page, total_page=total_page, start_range=start_range, end_range=end_range)
 
 @app.route('/get_orders_all')
 def get_orders_all():
@@ -90,10 +90,10 @@ def get_orders_all():
     except Exception as ex:
         return jsonify({'error': str(ex)})
     
-@app.route('/products')
+""" @app.route('/products')
 @login_required
 def products():
-    return render_template('products.html', current_page='products')
+    return render_template('products.html', current_page='products') """
 
 @app.route('/orders')
 @login_required
