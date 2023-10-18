@@ -11,7 +11,8 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 #Models
 from models.ModelUser import ModelUser
 from models.ModelOrders import ModelOrders
-from models.ModelProducts import ModelProducts 
+from models.ModelProducts import ModelProducts
+from models.ModelCategories import ModelCategories
 
 #Entities
 from models.entities.User import User
@@ -25,7 +26,8 @@ csrf = CSRFProtect()
 app = Flask(__name__)
 db = MySQL(app)
 login_manager_app = LoginManager(app)
-model_products = ModelProducts()  
+model_products = ModelProducts() 
+model_categories = ModelCategories()
 
 
 
@@ -87,6 +89,48 @@ def products():
     print("AFTER Search: ", search)
     result, page, total_page, start_range, end_range = ModelProducts().get_products(db, request, search)
     return render_template('products.html', result=result, page=page, total_page=total_page, start_range=start_range, end_range=end_range)
+
+@app.route('/categories', methods=['GET'])
+@login_required
+def categories():
+    search = request.args.get('search')
+    print("Search: ", search)
+    if search is None or search.lower() == 'none':
+        search = ""
+    print("AFTER Search: ", search)
+    result, page, total_page, start_range, end_range = ModelCategories().get_categories_table(db, request, search)
+    return render_template('categories.html', result=result, page=page, total_page=total_page, start_range=start_range, end_range=end_range)
+
+
+
+
+@app.route('/new_product')
+@login_required
+def new_product():
+    categories = model_categories.get_categories(db)
+    return render_template('new_product.html', current_page="new_product", categories=categories)
+
+@app.route('/new_category')
+@login_required
+def new_category():
+    categories = model_categories.get_categories(db)
+    return render_template('new_category.html', current_page="new_category", categories=categories)
+
+@app.route('/submit_form_category', methods=['POST'])
+@login_required
+def submit_form_category():
+    if request.method == 'POST':
+        name_category = request.form.get('nameCategory')
+        model_categories.add_category(db, name_category)
+        return redirect(url_for('categories', successfull='add'))
+    else:
+        return "Invalid request"
+
+
+
+
+
+
 
 
 @app.route('/get_orders_all')

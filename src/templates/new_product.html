@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiosko</title>
+    
+    <!--Material CDN-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <!--Styles-->
+    <link rel="icon" href="{{ url_for('static', filename='img/logo.png') }}" type="image/png">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/form.css') }}">
+</head>
+<body>
+
+    <div class="container">
+        <!--====================BEGIN ASIDE ====================-->
+        {% include 'sidebar.html' %}
+         <!--====================END ASIDE ====================-->
+        <main>
+            <h1>New Product</h1>
+
+             <!--==================== END INSIGHTS ====================-->
+             <!--=== BEGIN ORDERS ====-->
+            <div class="recent-orders">
+                <h2>Product</h2>
+                <form action="/submit_form_product" method="post" class="custom-form" enctype="multipart/form-data">
+                    <label for="nameFood">Name:</label><br>
+                    <input type="text" id="nameFood" name="nameFood" required><br>
+                
+                    <label for="priceFood">Price:</label><br>
+                    <input type="text" id="priceFood" name="priceFood" required><br>
+                
+                    <div class="file-input">
+                        <label for="imageUpload" class="file-label">Choose Image:</label>
+                        <input type="file" id="imageUpload" name="imageUpload" class="inputfile">
+                    </div><br>
+                
+                    <label for="descriptionFood">Description:</label><br>
+                    <textarea id="descriptionFood" name="descriptionFood" required></textarea><br>
+                
+                    <label for="available">Available:</label><br>
+                    <select id="available" name="available" required>
+                        <option value="true">True</option>
+                        <option value="false">False</option>
+                    </select><br>
+                
+                    <label for="idCategory">Category ID:</label><br>
+                    <select id="idCategory" name="idCategory" required>
+                        {% for category in categories %}
+                            <option value="{{ category[0] }}">{{ category[1] }}</option>
+                        {% endfor %}
+                    </select><br>
+
+                
+                    <input type="submit" value="Submit" class="submit-button">
+                </form>                         
+            </div>
+        </main>
+         <!--==================== END MAIN ====================-->
+        <div class="right">
+            <div class="top">
+                <button id="menu-btn">
+                    <span class="material-icons-sharp">menu</span>
+                </button>
+                <div class="theme-toggler">
+                    <span class="material-icons-sharp active">light_mode</span>
+                    <span class="material-icons-sharp">dark_mode</span>
+                </div>
+                <div class="profile">
+                    <div class="info">
+                        <p>Hey, <b>{{current_user.fullname}}</b></p>
+                        <p style="display: none;">Mode: <b id="current-user-mode">{{ current_user.mode }}</b></p>
+                        <small class="text-muted">
+                            {% if current_user.idRol == 1 %}
+                                Admin
+                            {% elif current_user.idRol == 2 %}
+                                Seller
+                            {% else %}
+                                Unknown
+                            {% endif %}
+                        </small>
+                    </div>
+                    <div class="profile-photo">
+                        <img src="{{ url_for('static', filename='img/profile.png') }}">
+                    </div>
+                    <div class="logout">
+                        <a href="{{ url_for('logout') }}">
+                            <span class="material-icons-sharp">logout</span>
+                            <h3>Logout</h3>
+                        </a>
+                    </div>
+                </div>
+            </div>
+             <!--====== END TOP ======-->
+             
+            {% include 'recent-updates.html' %}
+
+            <!--==================== END RECENT UPDATES ====================-->
+
+            
+        </div>   
+    </div>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+
+</body>
+</html>

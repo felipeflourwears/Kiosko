@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiosko</title>
+    
+    <!--Material CDN-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <!--Styles-->
+    <link rel="icon" href="{{ url_for('static', filename='img/logo.png') }}" type="image/png">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pagination.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/gadgets.css') }}">
+
+    <!-- CDN de Sweet Alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.css">
+
+</head>
+<body>
+
+    <div class="container">
+        <!--====================BEGIN ASIDE ====================-->
+        {% include 'sidebar.html' %}
+         <!--====================END ASIDE ====================-->
+        <main>
+            <h1>Categories</h1>
+            
+            
+
+             <!--==================== END INSIGHTS ====================-->
+             <!--=== BEGIN ORDERS ====-->
+             <div class="recent-orders">
+                <h2>Product Categories</h2>
+                <div class="search">
+                    <input type="text" class="search-category" id="search-input" placeholder="Search category" name="search">
+                    <span class="material-icons-sharp" id="search-icon">search</span>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table>
+                        <tr>
+                            <th>idCategory</th>
+                            <th>NameCategory</th>
+                            <th>Options</th>
+                        </tr>
+                        {% for data in result %}
+                        <tr>
+                            <td>{{ data[0] }}</td>
+                            <td>{{ data[1] }}</td>
+                            <td>
+                                <a class="btn-edit" href="/edit/{{ data[0] }}" style="color: white;">Edit</a>
+                                <a class="btn-delete" href="/delete/{{ data[0] }}" style="color: white;">Delete</a>
+                            </td>
+                            
+                            
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    <!-- <h1>Debugging information:</h1>
+                    <h1>Result: {{ result }}</h1>
+                    <h1>Page: {{ page }}</h1>
+                    <h1>Total Page: {{ total_page }}</h1> -->
+                </div>
+            </div>
+            <div class="pagination">
+                {% if page > 1 %}
+                    <a href='/categories?page={{ page - 1 }}&search={{ request.args.get("search") }}' class='btn btn-danger'>Previous</a>
+                {% endif %}
+                
+                {% for i in range(start_range, end_range + 1) %}
+                    {% if i == page %}
+                        <a href='/categories?page={{ i }}&search={{ request.args.get("search") }}' class='btn btn-primary active'>{{ i }}</a>
+                    {% else %}
+                        <a href='/categories?page={{ i }}&search={{ request.args.get("search") }}' class='btn btn-primary'>{{ i }}</a>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if page < total_page %}
+                    <a href='/categories?page={{ page + 1 }}&search={{ request.args.get("search") }}' class='btn btn-danger'>Next</a>
+                {% endif %}
+            </div>
+            
+            
+        </main>
+         <!--==================== END MAIN ====================-->
+        <div class="right">
+            <div class="top">
+                <button id="menu-btn">
+                    <span class="material-icons-sharp">menu</span>
+                </button>
+                <div class="theme-toggler">
+                    <span class="material-icons-sharp active">light_mode</span>
+                    <span class="material-icons-sharp">dark_mode</span>
+                </div>
+                <div class="profile">
+                    <div class="info">
+                        <p>Hey, <b>{{current_user.fullname}}</b></p>
+                        <p style="display: none;">Mode: <b id="current-user-mode">{{ current_user.mode }}</b></p>
+                        <small class="text-muted">
+                            {% if current_user.idRol == 1 %}
+                                Admin
+                            {% elif current_user.idRol == 2 %}
+                                Seller
+                            {% else %}
+                                Unknown
+                            {% endif %}
+                        </small>
+                    </div>
+                    <div class="profile-photo">
+                        <img src="{{ url_for('static', filename='img/profile.png') }}">
+                    </div>
+                    <div class="logout">
+                        <a href="{{ url_for('logout') }}">
+                            <span class="material-icons-sharp">logout</span>
+                            <h3>Logout</h3>
+                        </a>
+                    </div>
+                </div>
+            </div>
+             <!--====== END TOP ======-->
+             
+            {% include 'recent-updates.html' %}
+
+            <!--==================== END RECENT UPDATES ====================-->
+
+            {% include 'sales-analytics.html' %}
+        </div>   
+    </div>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/categories.js') }}"></script>
+  
+    {% if 'successfull' in request.args and request.args['successfull'] == 'add' %}
+    <script>
+        function popupSuccess(){
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Add correctly',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+        popupSuccess();
+    </script>
+    {% endif %}
+
+
+</body>
+</html>

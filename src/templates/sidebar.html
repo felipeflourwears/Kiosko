@@ -32,7 +32,7 @@
             <span class="message-count">26</span>
         </a> -->
         {% if current_user.idRol == 1 %}
-        <a href="#">
+        <a href="{{ url_for('categories') }}" {% if 'categories' in request.path %} class="active" {% endif %}>
             <span class="material-icons-sharp">category</span>
             <h3>Categories</h3>
         </a>
@@ -51,7 +51,11 @@
                 <span class="material-icons-sharp">settings</span>
                 <h3>Settings</h3>
             </a>
-            <a href="#">
+            <a href="{{ url_for('new_category') }}" {% if 'new_category' in request.path %} class="active" {% endif %}>
+                <span class="material-icons-sharp">add</span>
+                <h3>Add Category</h3>
+            </a>
+            <a href="{{ url_for('new_product') }}" {% if 'new_product' in request.path %} class="active" {% endif %}>
                 <span class="material-icons-sharp">add</span>
                 <h3>Add Product</h3>
             </a>

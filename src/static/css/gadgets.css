@@ -29,9 +29,14 @@
     width: 90%;
     padding: 5px;
   }
-  
-  .material-icons-sharp {
-    color: #757575;
-    cursor: pointer;
+
+  .search-category{
+    border: none;
+    width: 90%;
+    padding: 5px;
   }
+  
+
+ 
+
   
