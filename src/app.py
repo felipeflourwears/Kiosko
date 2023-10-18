@@ -110,6 +110,8 @@ def new_product():
     categories = model_categories.get_categories(db)
     return render_template('new_product.html', current_page="new_product", categories=categories)
 
+
+################################## CATEGORY ##################################
 @app.route('/new_category')
 @login_required
 def new_category():
@@ -125,12 +127,30 @@ def submit_form_category():
         return redirect(url_for('categories', successfull='add'))
     else:
         return "Invalid request"
+    
+@app.route('/delete/<int:category_id>', methods=['GET'])
+@login_required
+def delete_category(category_id):
+    model_categories.delete_category(db, category_id)
+    return redirect(url_for('categories', successfull='delete'))
 
+@app.route('/edit/<int:category_id>', methods=['GET'])
+@login_required
+def edit_category(category_id):
+    category = model_categories.get_category_by_id(db, category_id)
+    return render_template('edit_category.html', category=category)
 
+@app.route('/update_category/<int:category_id>', methods=['POST'])
+@login_required
+def update_category(category_id):
+    if request.method == 'POST':
+        name_category = request.form.get('nameCategory')
+        model_categories.update_category(db, category_id, name_category)
+        return redirect(url_for('categories', successfull='update'))
+    else:
+        return "Invalid request"
 
-
-
-
+################################## CATEGORY ##################################
 
 
 @app.route('/get_orders_all')

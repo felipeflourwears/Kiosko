@@ -45,3 +45,22 @@ class ModelCategories:
         cur.execute("INSERT INTO categoryFood (nameCategory) VALUES (%s)", (name_category,))
         db.connection.commit()
         cur.close()
+
+    def delete_category(self, db, category_id):
+        cur = db.connection.cursor()
+        cur.execute("DELETE FROM categoryFood WHERE idCategory = %s", (category_id,))
+        db.connection.commit()
+        cur.close()
+
+    def get_category_by_id(self, db, category_id):
+        cur = db.connection.cursor()
+        cur.execute("SELECT idCategory, nameCategory FROM categoryFood WHERE idCategory = %s", (category_id,))
+        category = cur.fetchone()
+        cur.close()
+        return category
+    
+    def update_category(self, db, category_id, name_category):
+        cur = db.connection.cursor()
+        cur.execute("UPDATE categoryFood SET nameCategory = %s WHERE idCategory = %s", (name_category, category_id))
+        db.connection.commit()
+        cur.close()

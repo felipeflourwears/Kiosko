@@ -50,7 +50,7 @@
                             <td>{{ data[1] }}</td>
                             <td>
                                 <a class="btn-edit" href="/edit/{{ data[0] }}" style="color: white;">Edit</a>
-                                <a class="btn-delete" href="/delete/{{ data[0] }}" style="color: white;">Delete</a>
+                                <a class="btn-delete" href="/delete/{{ data[0] }}" style="color: white;" onclick="confirmDelete(event)">Delete</a>
                             </td>
                             
                             
@@ -130,21 +130,26 @@
     <script src="{{ url_for('static', filename='js/index.js') }}"></script>
     <script src="{{ url_for('static', filename='js/categories.js') }}"></script>
   
+    <!-- Incluye tu script.js -->
+    <script src="{{ url_for('static', filename='js/popups.js') }}"></script>
+
     {% if 'successfull' in request.args and request.args['successfull'] == 'add' %}
-    <script>
-        function popupSuccess(){
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: 'Add correctly',
-                showConfirmButton: false,
-                timer: 1500
-            });
-        }
-        popupSuccess();
-    </script>
+        <script>
+            popupSuccess('Add correctly');
+        </script>
     {% endif %}
 
+    {% if 'successfull' in request.args and request.args['successfull'] == 'delete' %}
+        <script>
+            popupSuccess('Delete correctly');
+        </script>
+    {% endif %}
+    
+    {% if 'successfull' in request.args and request.args['successfull'] == 'update' %}
+        <script>
+            popupSuccess('Update correctly');
+        </script>
+    {% endif %}
 
 </body>
 </html>
