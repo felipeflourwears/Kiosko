@@ -6,7 +6,6 @@ class ModelProducts:
             page = int(request.args['page'])
         else:
             page = 1
-
         variante = 6
         num_per_page = variante
         start_from = (page - 1) * variante

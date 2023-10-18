@@ -81,8 +81,13 @@ def protected():
 @login_required
 def products():
     search = request.args.get('search')
+    print("Search: ", search)
+    if search == "None":
+        search = " "
+    print("AFTER Search: ", search)
     result, page, total_page, start_range, end_range = ModelProducts().get_products(db, request, search)
     return render_template('products.html', result=result, page=page, total_page=total_page, start_range=start_range, end_range=end_range)
+
 
 @app.route('/get_orders_all')
 def get_orders_all():

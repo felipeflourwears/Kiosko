@@ -14,9 +14,9 @@ print(check_password_hash(hashed_password, password))  # Esto debería imprimir 
 
 
 # Configuración de la conexión a la base de datos
-MYSQL_HOST = 'localhost'
-MYSQL_USER = 'root'
-MYSQL_PASSWORD = 'root'
+MYSQL_HOST = '10.39.4.200'
+MYSQL_USER = 'userdml23'
+MYSQL_PASSWORD = 'Beex2023%'
 MYSQL_DB = 'kiosk'
 
 try:
