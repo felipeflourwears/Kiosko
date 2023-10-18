@@ -18,8 +18,13 @@ from models.ModelCategories import ModelCategories
 from models.entities.User import User
 from models.entities.Order import Order
 
+from werkzeug.utils import secure_filename
+import os
+
 
 import math 
+
+
 
 #Instances
 csrf = CSRFProtect()
@@ -29,6 +34,8 @@ login_manager_app = LoginManager(app)
 model_products = ModelProducts() 
 model_categories = ModelCategories()
 
+####
+""" app.config['UPLOAD_FOLDER'] = 'media' """
 
 
 @login_manager_app.user_loader
@@ -79,6 +86,7 @@ def home():
 def protected():
     return "<h1>Esta es una vista protegida solo para usuarios autenticados</h1>"
 
+################################## PRODUCTS ##################################
 @app.route('/products', methods=['GET'])
 @login_required
 def products():
@@ -90,6 +98,43 @@ def products():
     result, page, total_page, start_range, end_range = ModelProducts().get_products(db, request, search)
     return render_template('products.html', result=result, page=page, total_page=total_page, start_range=start_range, end_range=end_range)
 
+
+@app.route('/new_product')
+@login_required
+def new_product():
+    categories = model_categories.get_categories(db)
+    return render_template('new_product.html', current_page="new_product", categories=categories)
+
+def allowed_file(filename, allowed_extensions):
+    print("FILE NAME", filename)
+    file_extension = filename.rsplit('.', 1)[1].lower() if '.' in filename else None
+    print("FILE EXTENSION", file_extension)
+    return file_extension in allowed_extensions
+
+@app.route('/submit_form_product', methods=['POST'])
+@login_required
+def submit_form_product():
+    if request.method == 'POST':
+        name_food = request.form.get('nameFood')
+        price_food = request.form.get('priceFood')
+        image_upload = request.files['imageUpload']
+        description_food = request.form.get('descriptionFood')
+        available = request.form.get('available')
+        id_category = request.form.get('idCategory')
+
+        model_products = ModelProducts()
+
+        image_path = model_products.add_product(db, name_food, price_food, image_upload, description_food, available, id_category)
+
+        return redirect(url_for('products', successfull='add')) if image_path else "Invalid file type"
+    else:
+        return "Invalid request"
+
+
+
+################################## PRODUCTS ##################################
+
+################################## CATEGORY ##################################
 @app.route('/categories', methods=['GET'])
 @login_required
 def categories():
@@ -101,17 +146,6 @@ def categories():
     result, page, total_page, start_range, end_range = ModelCategories().get_categories_table(db, request, search)
     return render_template('categories.html', result=result, page=page, total_page=total_page, start_range=start_range, end_range=end_range)
 
-
-
-
-@app.route('/new_product')
-@login_required
-def new_product():
-    categories = model_categories.get_categories(db)
-    return render_template('new_product.html', current_page="new_product", categories=categories)
-
-
-################################## CATEGORY ##################################
 @app.route('/new_category')
 @login_required
 def new_category():

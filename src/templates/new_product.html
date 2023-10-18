@@ -26,6 +26,7 @@
             <div class="recent-orders">
                 <h2>Product</h2>
                 <form action="/submit_form_product" method="post" class="custom-form" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <label for="nameFood">Name:</label><br>
                     <input type="text" id="nameFood" name="nameFood" required><br>
                 
