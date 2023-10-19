@@ -16,7 +16,7 @@ def delete_image_from_server(image_path):
         os.remove(full_path)
     else:
         print(f"File not found: {full_path}")
-
+ 
 class ModelProducts:
     def get_products(self, db, request, search=None):
         if 'page' in request.args:

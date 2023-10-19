@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/pagination.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/gadgets.css') }}">
 </head>
 <body>
 
@@ -20,21 +21,17 @@
         {% include 'sidebar.html' %}
          <!--====================END ASIDE ====================-->
         <main>
-            <h1>Dashboard</h1>
-           
-            <div class="date">
-                <!-- <input type="date"> -->
-                Welcome again
-            </div>
-            
-            {% include 'insights.html' %}
+            <h1>Orders</h1>
 
              <!--==================== END INSIGHTS ====================-->
              <!--=== BEGIN ORDERS ====-->
             <div class="recent-orders">
                 <h2>Recent Orders</h2>
+                <div class="search">
+                    <input type="text" class="search-order" id="search-input" placeholder="Search order" name="search">
+                    <span class="material-icons-sharp" id="search-icon">search</span>
+                </div>
                 <table>
-                    <thead>
                         <tr>
                             <th>Table</th>
                             <th>NameFood</th>
@@ -45,17 +42,44 @@
                             <th>Served</th>
                             <th></th>        
                         </tr>
-                    </thead>
-                    <tbody id="order-table-body">                  
-                    </tbody>
+                        {% for data in result %}
+                        <tr>
+                            <td>{{ data[0]}}</td>
+                            <td>{{ data[1] }}</td>
+                            <td>{{ data[2] }}</td>
+                            <td>{{ data[3] }}</td>
+                            <td>{{ data[4] }}</td>
+                            <td>{{ data[5] }}</td>
+                            <td class="{% if data[6] == 1 %}attended-text{% else %}pending-text{% endif %}">
+                                {% if data[6] == 1 %}
+                                    Attended
+                                {% else %}
+                                    Pending
+                                {% endif %}
+                            </td>
+                            <!-- <td style="justify-content: center; align-items: center; height: 100px; width: 100px;">
+                                <img src="{{ data[3] }}" style="">
+                            </td> --> 
+                        </tr>
+                        {% endfor %}
                 </table>
-                <div class="pagination">
-                    <ul id="pagination-list">
-                        <li class="page-item" id="page-previous">
-                            <a href="#" class="page-link">Previous</a>
-                        </li>
-                    </ul>
-                </div>
+            </div>
+            <div class="pagination">
+                {% if page > 1 %}
+                    <a href='/orders?page={{ page - 1 }}&search={{ request.args.get("search") }}' class='btn btn-danger'>Previous</a>
+                {% endif %}
+                
+                {% for i in range(start_range, end_range + 1) %}
+                    {% if i == page %}
+                        <a href='/orders?page={{ i }}&search={{ request.args.get("search") }}' class='btn btn-primary active'>{{ i }}</a>
+                    {% else %}
+                        <a href='/orders?page={{ i }}&search={{ request.args.get("search") }}' class='btn btn-primary'>{{ i }}</a>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if page < total_page %}
+                    <a href='/orders?page={{ page + 1 }}&search={{ request.args.get("search") }}' class='btn btn-danger'>Next</a>
+                {% endif %}
             </div>
         </main>
          <!--==================== END MAIN ====================-->
@@ -102,9 +126,9 @@
             {% include 'sales-analytics.html' %}
         </div>   
     </div>
-    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/load_data_all.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/orders_all.js') }}"></script>
 
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/orders.js') }}"></script>
+   
 </body>
 </html>

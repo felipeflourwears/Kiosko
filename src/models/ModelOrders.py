@@ -3,21 +3,25 @@ import math
 
 class ModelOrders():
 
-    def get_orders(self, db, request):
+    def get_orders(self, db, request, search=None):
         if 'page' in request.args:
             page = int(request.args['page'])
         else:
             page = 1
-
-        variante = 6
+        variante = 15
         num_per_page = variante
         start_from = (page - 1) * variante
 
+        search_query = ''
+        if search:
+            search_query = f"AND c.numberTable LIKE '%{search}%'"
+
         cur = db.connection.cursor()
-        cur.execute(f"SELECT idFood, f.nameFood, f.priceFood, f.imageUrl, f.descriptionFood, f.available, c.nameCategory FROM foodMenu f INNER JOIN categoryfood c ON f.idCategory = c.idCategory ORDER BY f.idFood DESC LIMIT {start_from}, {num_per_page}")
+        #SELECT c.numberTable, f.nameFood, o.quantity, o.descriptionOrd, DATE_FORMAT(o.dateDay, '%Y-%m-%d %H:%i:%s') as formatted_date, o.total, o.served FROM orders o INNER JOIN foodmenu f ON o.idFood = f.idFood INNER JOIN client c ON c.userCode = o.userCode ORDER BY o.idOrder DESC LIMIT 0 , 2;
+        cur.execute(f"SELECT c.numberTable, f.nameFood, o.quantity, o.descriptionOrd, DATE_FORMAT(o.dateDay, '%Y-%m-%d %H:%i:%s') as formatted_date, o.total, o.served FROM orders o INNER JOIN foodmenu f ON o.idFood = f.idFood INNER JOIN client c ON c.userCode = o.userCode WHERE 1 {search_query} ORDER BY o.idOrder DESC LIMIT {start_from}, {num_per_page}")
         result = cur.fetchall()
 
-        cur.execute("SELECT idFood, f.nameFood, f.priceFood, f.imageUrl, f.descriptionFood, f.available, c.nameCategory FROM foodMenu f INNER JOIN categoryfood c ON f.idCategory = c.idCategory ORDER BY f.idFood DESC")
+        cur.execute(f"SELECT c.numberTable, f.nameFood, o.quantity, o.descriptionOrd, DATE_FORMAT(o.dateDay, '%Y-%m-%d %H:%i:%s') as formatted_date, o.total, o.served FROM orders o INNER JOIN foodmenu f ON o.idFood = f.idFood INNER JOIN client c ON c.userCode = o.userCode WHERE 1 {search_query} ORDER BY o.idOrder DESC")
         total_record = cur.rowcount
 
         total_page = math.ceil(total_record / num_per_page)

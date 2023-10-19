@@ -206,6 +206,18 @@ def update_category(category_id):
         return "Invalid request"
 
 ################################## CATEGORY ##################################
+################################## ORDERS ##################################
+
+@app.route('/orders', methods=['GET'])
+@login_required
+def orders():
+    search = request.args.get('search')
+    print("Search: ", search)
+    if search is None or search.lower() == 'none':
+        search = ""
+    print("AFTER Search: ", search)
+    result, page, total_page, start_range, end_range = ModelOrders().get_orders(db, request, search)
+    return render_template('orders.html', result=result, page=page, total_page=total_page, start_range=start_range, end_range=end_range)
 
 
 @app.route('/get_orders_all')
@@ -217,16 +229,11 @@ def get_orders_all():
         return jsonify(data)
     except Exception as ex:
         return jsonify({'error': str(ex)})
-    
-""" @app.route('/products')
-@login_required
-def products():
-    return render_template('products.html', current_page='products') """
 
-@app.route('/orders')
+""" @app.route('/orders')
 @login_required
 def orders():
-    return render_template('orders.html', current_page='orders')
+    return render_template('orders.html', current_page='orders') """
 
 def status_401(error):
     return redirect(url_for('login'))

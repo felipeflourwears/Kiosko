@@ -17,7 +17,7 @@
             <span class="material-icons-sharp">person_outline</span>
             <h3>Customers</h3>
         </a> -->
-        <a href="{{ url_for('orders') }}" {% if current_page == 'orders' %} class="active" {% endif %}>
+        <a href="{{ url_for('orders') }}" {% if 'orders' in request.path %} class="active" {% endif %}>
             <span class="material-icons-sharp">receipt_long</span>
             <h3>Orders</h3>
         </a>
