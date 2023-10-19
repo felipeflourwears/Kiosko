@@ -49,8 +49,8 @@
                             <td>{{ data[0] }}</td>
                             <td>{{ data[1] }}</td>
                             <td>
-                                <a class="btn-edit" href="/edit/{{ data[0] }}" style="color: white;">Edit</a>
-                                <a class="btn-delete" href="/delete/{{ data[0] }}" style="color: white;" onclick="confirmDelete(event)">Delete</a>
+                                <a class="btn-edit" href="/edit_category/{{ data[0] }}" style="color: white;">Edit</a>
+                                <a class="btn-delete" href="/delete_category/{{ data[0] }}" style="color: white;" onclick="confirmDelete(event)">Delete</a>
                             </td>
                             
                             
@@ -130,7 +130,7 @@
     <script src="{{ url_for('static', filename='js/index.js') }}"></script>
     <script src="{{ url_for('static', filename='js/categories.js') }}"></script>
   
-    <!-- Incluye tu script.js -->
+    <!-- PopUps.js -->
     <script src="{{ url_for('static', filename='js/popups.js') }}"></script>
 
     {% if 'successfull' in request.args and request.args['successfull'] == 'add' %}

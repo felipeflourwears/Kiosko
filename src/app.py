@@ -18,13 +18,6 @@ from models.ModelCategories import ModelCategories
 from models.entities.User import User
 from models.entities.Order import Order
 
-from werkzeug.utils import secure_filename
-import os
-
-
-import math 
-
-
 
 #Instances
 csrf = CSRFProtect()
@@ -34,8 +27,6 @@ login_manager_app = LoginManager(app)
 model_products = ModelProducts() 
 model_categories = ModelCategories()
 
-####
-""" app.config['UPLOAD_FOLDER'] = 'media' """
 
 
 @login_manager_app.user_loader
@@ -129,6 +120,36 @@ def submit_form_product():
         return redirect(url_for('products', successfull='add')) if image_path else "Invalid file type"
     else:
         return "Invalid request"
+    
+
+@app.route('/edit_product/<int:product_id>', methods=['GET'])
+@login_required
+def edit_product(product_id):
+    categories = model_categories.get_categories(db)
+    product = model_products.get_product_by_id(db, product_id)
+    return render_template('edit_product.html', product=product, categories=categories)
+
+@app.route('/update_product/<int:product_id>', methods=['POST'])
+@login_required
+def update_product(product_id):
+    if request.method == 'POST':
+        name_food = request.form.get('nameFood')
+        price_food = request.form.get('priceFood')
+        description_food = request.form.get('descriptionFood')
+        available_food = request.form.get('available')
+        idCategory_food = request.form.get('idCategory')
+        model_products.update_product(db, product_id, name_food, price_food, description_food, available_food, idCategory_food)
+        return redirect(url_for('products', successfull='update'))
+    else:
+        return "Invalid request"
+    
+@app.route('/delete_product/<int:product_id>', methods=['GET'])
+@login_required
+def delete_product(product_id):
+    image_path = request.args.get('image_path')
+    print("IMAGE PATH: ", image_path)
+    model_products.delete_product(db, product_id, image_path)
+    return redirect(url_for('products', successfull='delete'))
 
 
 
@@ -162,13 +183,13 @@ def submit_form_category():
     else:
         return "Invalid request"
     
-@app.route('/delete/<int:category_id>', methods=['GET'])
+@app.route('/delete_category/<int:category_id>', methods=['GET'])
 @login_required
 def delete_category(category_id):
     model_categories.delete_category(db, category_id)
     return redirect(url_for('categories', successfull='delete'))
 
-@app.route('/edit/<int:category_id>', methods=['GET'])
+@app.route('/edit_category/<int:category_id>', methods=['GET'])
 @login_required
 def edit_category(category_id):
     category = model_categories.get_category_by_id(db, category_id)

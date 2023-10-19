@@ -12,6 +12,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/pagination.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/gadgets.css') }}">
+
+    <!-- CDN de Sweet Alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.css">
 </head>
 <body>
 
@@ -61,8 +65,8 @@
                             </td>
                             <td>{{ data[6] }}</td>
                             <td>
-                                <a class="btn-edit" href="/edit/{{ data[0] }}" style="color: white;">Edit</a>
-                                <a class="btn-delete" href="/delete/{{ data[0] }}" style="color: white;">Delete</a>
+                                <a class="btn-edit" href="/edit_product/{{ data[0] }}" style="color: white;">Edit</a>
+                                <a class="btn-delete" href="/delete_product/{{ data[0] }}?image_path={{ data[3] }}" style="color: white;" onclick="confirmDelete(event)">Delete</a>
                             </td>
                             
                             
@@ -141,6 +145,26 @@
     </div>
     <script src="{{ url_for('static', filename='js/index.js') }}"></script>
     <script src="{{ url_for('static', filename='js/products.js') }}"></script>
+    <!-- PopUps.js -->
+    <script src="{{ url_for('static', filename='js/popups.js') }}"></script>
+
+    {% if 'successfull' in request.args and request.args['successfull'] == 'add' %}
+        <script>
+            popupSuccess('Add correctly');
+        </script>
+    {% endif %}
+
+    {% if 'successfull' in request.args and request.args['successfull'] == 'delete' %}
+        <script>
+            popupSuccess('Delete correctly');
+        </script>
+    {% endif %}
+    
+    {% if 'successfull' in request.args and request.args['successfull'] == 'update' %}
+        <script>
+            popupSuccess('Update correctly');
+        </script>
+    {% endif %}
 
 </body>
 </html>
