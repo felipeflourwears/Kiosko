@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, jso
 from config import config
 from flask_mysqldb import MySQL
 
+
 #Import to manage tokens to authenticate
 from flask_wtf.csrf import CSRFProtect
 
@@ -17,6 +18,8 @@ from models.ModelCategories import ModelCategories
 #Entities
 from models.entities.User import User
 from models.entities.Order import Order
+
+
 
 
 #Instances
@@ -240,6 +243,7 @@ def status_401(error):
 
 def status_404(error):
     return render_template("404.html")
+
 
 if __name__ == '__main__':
     app.config.from_object(config['development'])

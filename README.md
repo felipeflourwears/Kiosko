@@ -12,6 +12,9 @@ pip install flask-WTF
 pip install flask-mysqldb
 pip install Flask
 pip install Flask-Login
+pip install flask-socketio
+pip install -U flask-cors
+
 ```
 
 ## Crear entorno virtual
@@ -33,5 +36,6 @@ python .\src\app.py
 
 ### Packages compatibles
 ```bash
+pip uninstall Werkzeug 
 pip install Werkzeug==2.3.0
 ```

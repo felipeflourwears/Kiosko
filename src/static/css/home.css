@@ -21,3 +21,11 @@
     background-color: darkred; /* Cambio de color de fondo al pasar el mouse */
 }
 
+.pagination {
+    display: inline-flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+
+

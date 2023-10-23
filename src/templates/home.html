@@ -10,7 +10,6 @@
     <!--Styles-->
     <link rel="icon" href="{{ url_for('static', filename='img/logo.png') }}" type="image/png">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/pagination.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 </head>
 <body>
@@ -49,13 +48,13 @@
                     <tbody id="order-table-body">                  
                     </tbody>
                 </table>
-                <div class="pagination">
-                    <ul id="pagination-list">
-                        <li class="page-item" id="page-previous">
-                            <a href="#" class="page-link">Previous</a>
-                        </li>
-                    </ul>
-                </div>
+            </div>
+            <div class="pagination">
+                <ul id="pagination-list">
+                    <li class="page-item" id="page-previous">
+                        <a href="#" class="page-link">Previous</a>
+                    </li>
+                </ul>
             </div>
         </main>
          <!--==================== END MAIN ====================-->
@@ -105,6 +104,6 @@
     <script src="{{ url_for('static', filename='js/index.js') }}"></script>
     <script src="{{ url_for('static', filename='js/load_data_all.js') }}"></script>
     <script src="{{ url_for('static', filename='js/orders_all.js') }}"></script>
-
+ 
 </body>
 </html>
