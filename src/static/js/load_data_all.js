@@ -22,20 +22,40 @@
         row.insertCell(1).textContent = order.nameFood;
         row.insertCell(2).textContent = order.quantity;
         row.insertCell(3).textContent = order.description;
-        /* row.insertCell(4).textContent = new Date(order.date).toLocaleDateString(); */
         row.insertCell(4).textContent = order.date;
         row.insertCell(5).textContent = `$${order.total}`;
         const servedCell = row.insertCell(6);
     
         if (order.served === 1) {
-            servedCell.textContent = 'Pending';
-            servedCell.classList.add('pending-text'); // Agrega una clase CSS para cambiar el color del texto a verde
-        } else {
-            // Si el pedido no está "served" (valor 0), muestra el texto 'Attended' en verde
             servedCell.textContent = 'Attended';
-            servedCell.classList.add('attended-text'); // Agrega una clase CSS para cambiar el color del texto a verde
+            servedCell.classList.add('attended-text');
+        } else {
+            servedCell.textContent = 'Pending';
+            servedCell.classList.add('pending-text');
+
         }
+    
+        // Agregar botones 'Edit' y 'Delete' en una celda extra
+        const buttonCell = row.insertCell(7);
+    
+        const serveButton = document.createElement('a');
+       /*  deleteButton.classList.add('btn-delete'); */
+      /*   deleteButton.href = `/delete_product/${order.id}?image_path=${order.imagePath}`; */
+        serveButton.classList.add('btn-serve');
+        serveButton.href = `/serve_order/${order.idOrder}`;
+        serveButton.textContent = 'Serve';
+       /*  deleteButton.style.color = 'white'; */
+        serveButton.style.marginRight = '10px';
+        serveButton.addEventListener('click', event => {
+            console.log('Se hizo clic en el botón de servir.');
+            confirmServer(event);
+        });
+        
+    
+        buttonCell.appendChild(serveButton);
     });
+    
+    
  }
 
  // Llama a loadOrderData con la página inicial (por ejemplo, 1)

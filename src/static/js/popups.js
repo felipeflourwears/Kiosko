@@ -26,3 +26,23 @@ function confirmDelete(event) {
         }
     });
 }
+
+
+function confirmServer(event) {
+    event.preventDefault(); // Evita el comportamiento predeterminado del enlace
+    const url = event.target.href; // Obtiene la URL del enlace
+
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'This order will be attended to',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, serve it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = url; // Redirige a la URL si se confirma la eliminación
+        }
+    });
+}

@@ -22,10 +22,48 @@
 }
 
 .pagination {
-    display: inline-flex;
+    text-align: center;
+    margin: 20px 0;
+}
+ 
+.pagination ul {
+    list-style: none;
+    display: flex;
     justify-content: center;
-    margin-top: 20px;
+    align-items: center;
+    padding: 0;
 }
 
+.page-item {
+    margin: 0 5px;
+}
+
+.page-link {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--color-pagination2) !important;
+    color: #fff !important;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.page-link:hover {
+    background: var(--color-pagination1) !important;
+}
+
+/* Estilo para el enlace activo dentro de un elemento con la clase page-item */
+.page-item.active a.page-link {
+    background: var(--color-pagination3) !important; /* Cambia el color de fondo a tu elección */
+    color: #fff; /* Cambia el color del texto a tu elección */
+    /* Agrega otros estilos según tus preferencias */
+}
+
+
+.page-item.disabled .page-link {
+    pointer-events: none;
+    background: #ccc !important;
+    color: #000 !important; /* Agregar color de texto para la página inactiva */
+}
 
 

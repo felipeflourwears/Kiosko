@@ -222,21 +222,22 @@ def orders():
     result, page, total_page, start_range, end_range = ModelOrders().get_orders(db, request, search)
     return render_template('orders.html', result=result, page=page, total_page=total_page, start_range=start_range, end_range=end_range)
 
+@app.route('/serve_order/<int:order_id>', methods=['GET'])
+@login_required
+def serve_order(order_id):
+    order = ModelOrders.update_order(db, order_id)
+    return redirect(url_for('home'))
 
 @app.route('/get_orders_all')
 def get_orders_all():
     try:
         orders = ModelOrders.get_orders_all_db(db)  # Llama a la función para obtener datos de pedidos
         # Convierte los datos de pedidos en un formato adecuado (por ejemplo, una lista de diccionarios)
-        data = [{'table': order.nameTable, 'nameFood': order.nameFood, 'quantity': order.quantity, 'description': order.descriptionOrd, 'date': order.dateDay, 'total': order.total, 'served': order.served} for order in orders]
+        #'idOrder': order.idOrder
+        data = [{'table': order.nameTable, 'nameFood': order.nameFood, 'quantity': order.quantity, 'description': order.descriptionOrd, 'date': order.dateDay, 'total': order.total, 'served': order.served, 'idOrder': order.idOrder} for order in orders]
         return jsonify(data)
     except Exception as ex:
         return jsonify({'error': str(ex)})
-
-""" @app.route('/orders')
-@login_required
-def orders():
-    return render_template('orders.html', current_page='orders') """
 
 def status_401(error):
     return redirect(url_for('login'))
