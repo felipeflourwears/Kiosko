@@ -55,7 +55,7 @@ class ModelProducts:
         if image_upload and allowed_file(image_upload.filename, ALLOWED_EXTENSIONS):
             filename, ext = os.path.splitext(secure_filename(image_upload.filename))
             filename_with_date = f"{filename}-{formatted_date}{ext}"
-            ext = "/static/media/"
+            ext = "http://192.168.8.27:4000/static/media/"
             image_upload.save(os.path.join(UPLOAD_FOLDER, filename_with_date))
             filename_with_ext = ext + filename_with_date
             cur = db.connection.cursor()

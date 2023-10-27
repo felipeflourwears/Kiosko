@@ -20,16 +20,17 @@ from models.entities.User import User
 from models.entities.Order import Order
 
 
-
+#PORT
+puerto=4000
 
 #Instances
-csrf = CSRFProtect()
+
 app = Flask(__name__)
 db = MySQL(app)
 login_manager_app = LoginManager(app)
 model_products = ModelProducts() 
 model_categories = ModelCategories()
-
+csrf = CSRFProtect(app)
 
 
 @login_manager_app.user_loader
@@ -251,4 +252,5 @@ if __name__ == '__main__':
     csrf.init_app(app)
     app.register_error_handler(401, status_401)
     app.register_error_handler(404, status_404)
+    #app.run(host="0.0.0.0", port=puerto)
     app.run()

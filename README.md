@@ -12,6 +12,8 @@ pip install flask-WTF
 pip install flask-mysqldb
 pip install Flask
 pip install Flask-Login
+pip install mod-wsgi
+pip install wfastcgi
 pip install flask-socketio
 pip install -U flask-cors
 
@@ -38,4 +40,9 @@ python .\src\app.py
 ```bash
 pip uninstall Werkzeug 
 pip install Werkzeug==2.3.0
+```
+
+### Apache
+```bash
+https://www.apachelounge.com/download/
 ```
