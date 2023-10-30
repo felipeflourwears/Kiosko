@@ -1,39 +1,36 @@
 
 
-## Install packages
+## Install packages to create ENV
 
 ```bash
 pip install virtualenv
 ```
+# Enviroment ENV
 
-### Paquetes necesarios para SQL y login
-```bash
-pip install flask-WTF
-pip install flask-mysqldb
-pip install Flask
-pip install Flask-Login
-pip install mod-wsgi
-pip install wfastcgi
-pip install flask-socketio
-pip install -U flask-cors
-
-```
-
-## Crear entorno virtual
+### Create virtual environment
 
 ```bash
 python -m venv env
 ```
 
-### Activar Entorno Virtual
+### Activate Virtual Environment
 
 ```bash
 .\env\Scripts\activate
 ```
-
-## Correr app.py
+# Packages
+### Packages essential to init project
 ```bash
-python .\src\app.py
+pip install flask-WTF
+pip install flask-mysqldb
+pip install Flask
+pip install Flask-Login
+
+```
+
+### Install requeriments.txt
+```bash
+pip install -r requirements.txt
 ```
 
 ### Packages compatibles
@@ -42,7 +39,33 @@ pip uninstall Werkzeug
 pip install Werkzeug==2.3.0
 ```
 
-### Apache
+# Run APP
+### run app.py
+```bash
+python .\src\app.py
+```
+
+# Execute as TaskWindows
+
+## Create File.bat Example Content
+```bash
+"C:\Program Files\Python311\path python.exe" "C:\Users\UserLF\...\Kiosko\src\app.py"
+```
+
+### Create Simple task 
+
+When you start the operating system, it's recommended to give it a delay of one minute to start, the file.bat that has to be executed is passed
+
+
+# Server(working)
+
+### Working to Apache Server WSGI
+```bash
+pip install mod-wsgi
+```
+### Apache Download
 ```bash
 https://www.apachelounge.com/download/
 ```
+
+
