@@ -28,46 +28,66 @@ class ModelProducts:
         start_from = (page - 1) * variante
 
         search_query = ''
+        params = []
         if search:
-            search_query = f"AND f.nameFood LIKE '%{search}%'"
+            search_query = " AND f.nameFood LIKE %s "
+            params.append(f"%{search}%")
 
-        cur = db.connection.cursor()
-        cur.execute(f"SELECT idFood, f.nameFood, f.priceFood, f.imageUrl, f.descriptionFood, f.available, c.nameCategory FROM foodMenu f INNER JOIN categoryfood c ON f.idCategory = c.idCategory WHERE 1 {search_query} ORDER BY f.idFood DESC LIMIT {start_from}, {num_per_page}")
-        result = cur.fetchall()
+        try:
+            with db.connection.cursor() as cur:
+                query = f"""SELECT idFood, f.nameFood, f.priceFood, f.imageUrl, f.descriptionFood, f.available, c.nameCategory 
+                            FROM foodMenu f 
+                            INNER JOIN categoryfood c ON f.idCategory = c.idCategory 
+                            WHERE 1 {search_query} 
+                            ORDER BY f.idFood DESC 
+                            LIMIT %s, %s"""
+                cur.execute(query, params + [start_from, num_per_page])
+                result = cur.fetchall()
 
-        cur.execute(f"SELECT idFood, f.nameFood, f.priceFood, f.imageUrl, f.descriptionFood, f.available, c.nameCategory FROM foodMenu f INNER JOIN categoryfood c ON f.idCategory = c.idCategory WHERE 1 {search_query} ORDER BY f.idFood DESC")
-        total_record = cur.rowcount
+                cur.execute(f"""SELECT idFood, f.nameFood, f.priceFood, f.imageUrl, f.descriptionFood, f.available, c.nameCategory 
+                                FROM foodMenu f 
+                                INNER JOIN categoryfood c ON f.idCategory = c.idCategory 
+                                WHERE 1 {search_query} 
+                                ORDER BY f.idFood DESC""", params)
+                total_record = cur.rowcount
 
-        total_page = math.ceil(total_record / num_per_page)
+                total_page = math.ceil(total_record / num_per_page)
 
-        cur.close()
+                start_range = max(1, page - 2)
+                end_range = min(total_page, page + 2)
 
-        start_range = max(1, page - 2)
-        end_range = min(total_page, page + 2)
-
-        return (result, page, total_page, start_range, end_range)
+                return (result, page, total_page, start_range, end_range)
+        except Exception as e:
+            # Manejo de excepciones
+            print(f"Error: {e}")
+            return ([], 1, 0, 1, 1)
     
     def add_product(self, db, name_food, price_food, image_upload, description_food, available, id_category):
-        current_datetime = datetime.now()
-        formatted_date = current_datetime.strftime("%Y-%m-%d-%H-%M-%S-%f")[:-3]
-        available_value = 1 if available.lower() == 'true' else 0
+        try:
+            current_datetime = datetime.now()
+            formatted_date = current_datetime.strftime("%Y-%m-%d-%H-%M-%S-%f")[:-3]
+            available_value = 1 if available.lower() == 'true' else 0
 
-        if image_upload and allowed_file(image_upload.filename, ALLOWED_EXTENSIONS):
-            filename, ext = os.path.splitext(secure_filename(image_upload.filename))
-            filename_with_date = f"{filename}-{formatted_date}{ext}"
-            ext = "http://192.168.8.27:4000/static/media/"
-            image_upload.save(os.path.join(UPLOAD_FOLDER, filename_with_date))
-            filename_with_ext = ext + filename_with_date
-            cur = db.connection.cursor()
-            cur.execute("INSERT INTO foodMenu (nameFood, priceFood, imageUrl, descriptionFood, available, idCategory) VALUES (%s, %s, %s, %s, %s, %s)", 
-                        (name_food, price_food, filename_with_ext, description_food, available_value, id_category))
-            db.connection.commit()
-            cur.close()
+            if image_upload and allowed_file(image_upload.filename, ALLOWED_EXTENSIONS):
+                filename, ext = os.path.splitext(secure_filename(image_upload.filename))
+                filename_with_date = f"{filename}-{formatted_date}{ext}"
+                ext = "http://localhost:4000/static/media/"
+                image_upload.save(os.path.join(UPLOAD_FOLDER, filename_with_date))
+                filename_with_ext = ext + filename_with_date
 
-            image_path = f'/static/media/{filename_with_date}'
-            return image_path
-        else:
-            return "Invalid file type"
+                with db.connection.cursor() as cur:
+                    query = "INSERT INTO foodMenu (nameFood, priceFood, imageUrl, descriptionFood, available, idCategory) VALUES (%s, %s, %s, %s, %s, %s)"
+                    cur.execute(query, (name_food, price_food, filename_with_ext, description_food, available_value, id_category))
+                    db.connection.commit()
+
+                image_path = f'/static/media/{filename_with_date}'
+                return image_path
+            else:
+                return "Invalid file type"
+        except Exception as e:
+            # Manejo de excepciones
+            print(f"Error: {e}")
+            return "Error al agregar el producto"
         
     def get_product_by_id(self, db, product_id):
         cur = db.connection.cursor()

@@ -52,9 +52,18 @@ python .\src\app.py
 "C:\Program Files\Python311\path python.exe" "C:\Users\UserLF\...\Kiosko\src\app.py"
 ```
 
+## Open Automatically with Chrome
+
+```bash
+@echo off
+start "App" "C:\Program Files\Python311\python.exe" "C:\Users\josec\OneDrive\Escritorio\Kiosko\src\app.py"
+timeout /t 10 /nobreak > NUL
+start chrome http://127.0.0.1:4000
+```
+
 ### Create Simple task 
 
-When you start the operating system, it's recommended to give it a delay of one minute to start, the file.bat that has to be executed is passed
+When you start the operating system, it's recommended to give it a delay of one minute to start, the file.bat path that has to be executed is passed
 
 
 # Server(working)
