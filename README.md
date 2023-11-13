@@ -1,4 +1,7 @@
 
+# Dashboard
+
+<img src="media/dashboard.png" alt="main" width="900" height="400">
 
 ## Install packages to create ENV
 
@@ -76,5 +79,10 @@ pip install mod-wsgi
 ```bash
 https://www.apachelounge.com/download/
 ```
+
+### Kiosko
+
+Application together with Flutter Project.
+
 
 

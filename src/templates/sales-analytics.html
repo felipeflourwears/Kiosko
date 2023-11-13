@@ -41,7 +41,7 @@
             <h3>3333</h3>
         </div>
     </div>
-
+    {% if current_user.idRol == 1 %}
     <a href="/new_category" class="item add-product">
         <div>
             <div>
@@ -59,4 +59,5 @@
             </div>
         </div>
     </a>
+    {% endif %}
 </div>
