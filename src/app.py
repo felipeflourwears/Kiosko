@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, abort
 from config import config
 from flask_mysqldb import MySQL
+
 
 
 #Import to manage tokens to authenticate
@@ -97,6 +98,8 @@ def products():
 @app.route('/new_product')
 @login_required
 def new_product():
+    if current_user.idRol != 1:  # Cambia 1 al ID de rol permitido
+        abort(404) 
     categories = model_categories.get_categories(db)
     return render_template('new_product.html', current_page="new_product", categories=categories)
 
@@ -129,6 +132,8 @@ def submit_form_product():
 @app.route('/edit_product/<int:product_id>', methods=['GET'])
 @login_required
 def edit_product(product_id):
+    if current_user.idRol != 1:  # Cambia 1 al ID de rol permitido
+        abort(404) 
     categories = model_categories.get_categories(db)
     product = model_products.get_product_by_id(db, product_id)
     return render_template('edit_product.html', product=product, categories=categories)
@@ -136,6 +141,8 @@ def edit_product(product_id):
 @app.route('/update_product/<int:product_id>', methods=['POST'])
 @login_required
 def update_product(product_id):
+    if current_user.idRol != 1:  # Cambia 1 al ID de rol permitido
+        abort(404) 
     if request.method == 'POST':
         name_food = request.form.get('nameFood')
         price_food = request.form.get('priceFood')
@@ -150,6 +157,8 @@ def update_product(product_id):
 @app.route('/delete_product/<int:product_id>', methods=['GET'])
 @login_required
 def delete_product(product_id):
+    if current_user.idRol != 1:  # Cambia 1 al ID de rol permitido
+        abort(404) 
     image_path = request.args.get('image_path')
     print("IMAGE PATH: ", image_path)
     model_products.delete_product(db, product_id, image_path)
@@ -163,6 +172,8 @@ def delete_product(product_id):
 @app.route('/categories', methods=['GET'])
 @login_required
 def categories():
+    if current_user.idRol != 1:  # Change 1 to the actual role ID that is allowed
+        abort(404)
     search = request.args.get('search')
     print("Search: ", search)
     if search is None or search.lower() == 'none':
@@ -174,12 +185,16 @@ def categories():
 @app.route('/new_category')
 @login_required
 def new_category():
+    if current_user.idRol != 1:  # Change 1 to the actual role ID that is allowed
+        abort(404)
     categories = model_categories.get_categories(db)
     return render_template('new_category.html', current_page="new_category", categories=categories)
 
 @app.route('/submit_form_category', methods=['POST'])
 @login_required
 def submit_form_category():
+    if current_user.idRol != 1:  # Cambia 1 al ID de rol permitido
+        abort(404) 
     if request.method == 'POST':
         name_category = request.form.get('nameCategory')
         model_categories.add_category(db, name_category)
@@ -190,18 +205,24 @@ def submit_form_category():
 @app.route('/delete_category/<int:category_id>', methods=['GET'])
 @login_required
 def delete_category(category_id):
+    if current_user.idRol != 1:  # Cambia 1 al ID de rol permitido
+        abort(404) 
     model_categories.delete_category(db, category_id)
     return redirect(url_for('categories', successfull='delete'))
 
 @app.route('/edit_category/<int:category_id>', methods=['GET'])
 @login_required
 def edit_category(category_id):
+    if current_user.idRol != 1:  # Cambia 1 al ID de rol permitido
+        abort(404) 
     category = model_categories.get_category_by_id(db, category_id)
     return render_template('edit_category.html', category=category)
 
 @app.route('/update_category/<int:category_id>', methods=['POST'])
 @login_required
 def update_category(category_id):
+    if current_user.idRol != 1:  # Cambia 1 al ID de rol permitido
+        abort(404) 
     if request.method == 'POST':
         name_category = request.form.get('nameCategory')
         model_categories.update_category(db, category_id, name_category)

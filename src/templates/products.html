@@ -45,7 +45,9 @@
                             <!-- <th>Description</th> -->
                             <th>Stack</th>
                             <th>Category</th>
+                            {% if current_user.idRol == 1 %}
                             <th>Options</th>
+                            {% endif %}
                         </tr>
                         {% for data in result %}
                         <tr>
@@ -64,10 +66,12 @@
                                 {% endif %}
                             </td>
                             <td>{{ data[6] }}</td>
+                            {% if current_user.idRol == 1 %}
                             <td>
                                 <a class="btn-edit" href="/edit_product/{{ data[0] }}" style="color: white;">Edit</a>
                                 <a class="btn-delete" href="/delete_product/{{ data[0] }}?image_path={{ data[3] }}" style="color: white;" onclick="confirmDelete(event)">Delete</a>
                             </td>
+                            {% endif %}
                             
                             
                         </tr>
@@ -115,9 +119,9 @@
                         <p style="display: none;">Mode: <b id="current-user-mode">{{ current_user.mode }}</b></p>
                         <small class="text-muted">
                             {% if current_user.idRol == 1 %}
-                                Admin
+                                Admin 
                             {% elif current_user.idRol == 2 %}
-                                Seller
+                                Seller 
                             {% else %}
                                 Unknown
                             {% endif %}

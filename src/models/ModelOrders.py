@@ -69,8 +69,18 @@ class ModelOrders():
       
     @classmethod  
     def update_order(self, db, idOrder):
-        cur = db.connection.cursor()
-        cur.execute("UPDATE orders SET served = 1 WHERE idOrder = %s", (idOrder,))
-        db.connection.commit()
-        cur.close()
-        return "Order updated successfully"
+        try:
+            idOrder = int(idOrder)
+        except ValueError:
+            return "Invalid order ID"
+
+        query = "UPDATE orders SET served = 1 WHERE idOrder = %s"
+        values = (idOrder,)
+
+        try:
+            with db.connection.cursor() as cur:
+                cur.execute(query, values)
+                db.connection.commit()
+            return "Order updated successfully"
+        except Exception as e:
+            return f"Error updating order: {str(e)}"
